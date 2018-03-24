@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "129790242710",
+    "firebase_url": "https://connectme-1521924989860.firebaseio.com",
+    "project_id": "connectme-1521924989860",
+    "storage_bucket": "connectme-1521924989860.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129790242710:android:a709f2eae4c22da0",
+        "android_client_info": {
+          "package_name": "com.example.skilja.connectme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129790242710-lr635u3farvo4hopp5avlvmmngdotq38.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "129790242710-g4s74vuol31jve8h4nlnbpl8ji0s0q1f.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "129790242710-novbstnalck148mhurvi00up8gqonarm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.skilja.connectme",
+            "certificate_hash": "3ab4ce42485e55870072b7afc2d6531e855b61cd"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAalIjOQFzmtJsLiEq0HC-E7x8ChM76BVo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129790242710-lr635u3farvo4hopp5avlvmmngdotq38.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
