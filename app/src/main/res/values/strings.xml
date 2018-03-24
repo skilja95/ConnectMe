@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">ConnectMe</string>
     <string name="action_settings">Settings</string>
+
+    <string name="facebook_app_id">633365020388671</string>
+    <string name="fb_login_protocol_scheme">fb633365020388671</string>
+
 </resources>
