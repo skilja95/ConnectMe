@@ -260,7 +260,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                             mRef.child(uid).setValue(user);
 
-                            // TODO: SKILJA Intent to conversations page
+                            // DONE: SKILJA Intent to conversations page
+                            Intent intent = new Intent(MainActivity.this, ConversationPageActivity.class);
+                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
                         }
 
                     }
@@ -312,8 +316,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                                 }
                             });
 
-                            // TODO: SKILJA Intent to conversations page
-
+                            // DONE: SKILJA Intent to conversations page
+                            Intent intent = new Intent(MainActivity.this, ConversationPageActivity.class);
+                            startActivity(intent);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            finish();
                         }
 
                     }
