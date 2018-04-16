@@ -118,23 +118,27 @@ public class HomeFragment extends Fragment {
                 groups.clear();
                 String email = getCurrentUser();
                 Log.d("DATABASE", "FROM DATABASE SKILJA");
-                for (DataSnapshot u : dataSnapshot.getChildren()) {
-                    Group group = u.getValue(Group.class);
-                    for (User user : group.getMembers().values()) {
-                        if (user.getEmail().equals(email)) {
-                            groups.add(group);
+                Group g2 = new Group("dsadasd", "Kolege", null, -16711681);
+                Group g3 = new Group("5345", "Android team fax", null, -55451 );
+                groups.add(g2);
+                groups.add(g3);
+//                for (DataSnapshot u : dataSnapshot.getChildren()) {
+//                    Group group = u.getValue(Group.class);
+//                    for (User user : group.getMembers().values()) {
+//                        if (user.getEmail().equals(email)) {
+//                            groups.add(group);
 //
-                        }
-                    }
-                }
+//                        }
+//                   }
+//                }
 
 
-                for (int i = 0; i < groups.size(); i++) {
-                    for (int j = 0; j < deletedGroups.size(); j++) {
-                        if (groups.get(i).getId_group().equals(deletedGroups.get(j)))
-                            forDeleteList.add(groups.get(i));
-                    }
-                }
+//                for (int i = 0; i < groups.size(); i++) {
+//                    for (int j = 0; j < deletedGroups.size(); j++) {
+//                        if (groups.get(i).getId_group().equals(deletedGroups.get(j)))
+//                            forDeleteList.add(groups.get(i));
+//                    }
+//                }
 
                 groups.removeAll(forDeleteList);
                 temp.clear();
