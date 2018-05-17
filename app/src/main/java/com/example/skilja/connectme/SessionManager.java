@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.example.skilja.connectme.activities.ConversationPageActivity;
+import com.example.skilja.connectme.activities.LoginActivity;
+import com.example.skilja.connectme.activities.MainActivity;
+
 import java.util.HashMap;
 
 public class SessionManager {
@@ -67,10 +71,26 @@ public class SessionManager {
     public void checkLogin() {
         // Check login status
         if (!this.isLoggedIn()) {
-            // TODO: SKILJA
             // user is not logged in redirect him to Login Activity
+            Intent i = new Intent(context, LoginActivity.class);
+            // Closing all the Activities
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            // Add new Flag to start new Activity
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            // Staring Login Activity
+            context.startActivity(i);
         } else {
-            // TODO: SKILJA
+            Intent i = new Intent(context, ConversationPageActivity.class);
+            // Closing all the Activities
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            // Add new Flag to start new Activity
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            // Staring Login Activity
+            context.startActivity(i);
         }
 
 
@@ -98,10 +118,22 @@ public class SessionManager {
      * Clear session details
      */
     public void logoutUser() {
-          // TODO: SKILJA
-//        // Clear all data from Shared Preferences
-//        // After logout redirect user to Login Activity
+        // DONE: SKILJA
+        // Clear all data from Shared Preferences
+        // After logout redirect user to Login Activity
+        editor.clear();
+        editor.commit();
 
+        // After logout redirect user to Login Activity
+        Intent i = new Intent(context, MainActivity.class);
+        // Closing all the Activities
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        // Add new Flag to start new Activity
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        // Staring Login Activity
+        context.startActivity(i);
     }
 
     /**

@@ -163,8 +163,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
             case R.id.goToEmailReg:
-                // TODO: SKILJA Intent to registration page
-
+                // DONE: SKILJA Intent to registration page
+                Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(loginIntent);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finish();
+                break;
             default:
                 return;
         }

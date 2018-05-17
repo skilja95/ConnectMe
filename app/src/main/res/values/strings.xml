@@ -16,5 +16,6 @@
         <item>Deleted conversations</item>
         <item>People</item>
     </string-array>
+    <string name="title_activity_login">LoginActivity</string>
 
 </resources>

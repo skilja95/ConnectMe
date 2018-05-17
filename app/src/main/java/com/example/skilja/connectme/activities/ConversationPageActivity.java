@@ -21,7 +21,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.skilja.connectme.R;
 import com.example.skilja.connectme.SessionManager;
+import com.example.skilja.connectme.fragments.DeleteMessagesFragment;
 import com.example.skilja.connectme.fragments.HomeFragment;
+import com.example.skilja.connectme.fragments.PeopleFragment;
 import com.example.skilja.connectme.model.CircleTransform;
 
 import java.util.HashMap;
@@ -236,13 +238,14 @@ public class ConversationPageActivity extends AppCompatActivity {
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                return new HomeFragment();
+                HomeFragment homeFragment = new HomeFragment();
+                return homeFragment;
             case 1:
-                //TODO: DeleteMessagesFragment
-
+                DeleteMessagesFragment deleteMessagesFragment = new DeleteMessagesFragment();
+                return deleteMessagesFragment;
             case 2:
-
-//                //TODO: PeopleFragment
+                PeopleFragment peopleFragment = new PeopleFragment();
+                return peopleFragment;
             default:
                 return new HomeFragment();
         }
