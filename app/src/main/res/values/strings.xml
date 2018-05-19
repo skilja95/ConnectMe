@@ -18,5 +18,7 @@
     </string-array>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_new_conversation">NewConversationActivity</string>
+    <string name="title_activity_send_message">SendMessageActivity</string>
 
 </resources>

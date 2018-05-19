@@ -1,5 +1,6 @@
 package com.example.skilja.connectme.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -97,7 +98,8 @@ public class ConversationPageActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent newConversationIntent = new Intent(ConversationPageActivity.this, NewConversationActivity.class);
+                startActivity(newConversationIntent);
             }
         });
 
