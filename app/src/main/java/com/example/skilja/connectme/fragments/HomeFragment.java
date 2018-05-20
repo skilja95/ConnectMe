@@ -2,6 +2,7 @@ package com.example.skilja.connectme.fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.example.skilja.connectme.R;
+import com.example.skilja.connectme.activities.SendMessageActivity;
 import com.example.skilja.connectme.model.CustomAdapter;
 import com.example.skilja.connectme.model.DeleteGroup;
 import com.example.skilja.connectme.model.User;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,9 @@ public class HomeFragment extends Fragment {
     private ArrayList<Group> temp = new ArrayList<>();
     ;
     private ArrayList<Group> listGroup = new ArrayList<>();
+
+    public static final String GROUP_ID = "group_id";
+    public static final String USER_MAIL = "user_mail";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -118,27 +124,24 @@ public class HomeFragment extends Fragment {
                 groups.clear();
                 String email = getCurrentUser();
                 Log.d("DATABASE", "FROM DATABASE SKILJA");
-                Group g2 = new Group("dsadasd", "Kolege", null, -16711681);
-                Group g3 = new Group("5345", "Android team fax", null, -55451 );
-                groups.add(g2);
-                groups.add(g3);
-//                for (DataSnapshot u : dataSnapshot.getChildren()) {
-//                    Group group = u.getValue(Group.class);
-//                    for (User user : group.getMembers().values()) {
-//                        if (user.getEmail().equals(email)) {
-//                            groups.add(group);
-//
-//                        }
-//                   }
-//                }
+
+                for (DataSnapshot u : dataSnapshot.getChildren()) {
+                    Group group = u.getValue(Group.class);
+                    for (User user : group.getMembers().values()) {
+                        if (user.getEmail().equals(email)) {
+                            groups.add(group);
+
+                        }
+                   }
+                }
 
 
-//                for (int i = 0; i < groups.size(); i++) {
-//                    for (int j = 0; j < deletedGroups.size(); j++) {
-//                        if (groups.get(i).getId_group().equals(deletedGroups.get(j)))
-//                            forDeleteList.add(groups.get(i));
-//                    }
-//                }
+                for (int i = 0; i < groups.size(); i++) {
+                    for (int j = 0; j < deletedGroups.size(); j++) {
+                        if (groups.get(i).getId_group().equals(deletedGroups.get(j)))
+                            forDeleteList.add(groups.get(i));
+                    }
+                }
 
                 groups.removeAll(forDeleteList);
                 temp.clear();
@@ -196,7 +199,16 @@ public class HomeFragment extends Fragment {
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.e("", "NESTOOOOOOOO");
+                Group group = (Group) parent.getItemAtPosition(position);
+                String uidGroup = group.getId_group();
 
+                Intent intent = new Intent(getContext().getApplicationContext(), SendMessageActivity.class);
+                intent.putExtra(HomeFragment.GROUP_ID, uidGroup);
+                intent.putExtra(HomeFragment.USER_MAIL, getCurrentUserEmail());
+                startActivity(intent);
+
+                FirebaseMessaging.getInstance().subscribeToTopic(uidGroup);
             }
         });
 

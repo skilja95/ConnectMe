@@ -115,7 +115,7 @@ public class NewConversationActivity extends AppCompatActivity {
 
                 members.add(u);
 
-                Log.e("", "EMAIL OD : " + currentUser.getEmail());
+                //Log.e("", "EMAIL OD : " + currentUser.getEmail());
 
                 String uid = ref.push().getKey();
 

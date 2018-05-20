@@ -1,0 +1,57 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+        <TextView
+            android:id="@+id/txtSender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:maxLines="1"
+            android:paddingBottom="6dp"
+            android:paddingRight="10dp"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/txtSenderLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:maxLines="1"
+            android:paddingBottom="6dp"
+            android:paddingLeft="10dp"
+            android:text=""
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/messageLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:background="@drawable/grey_bubble"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/messageLeft"
+            android:layout_alignBottom="@+id/messageLeft"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/blue_bubble"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:visibility="invisible" />
+
+</RelativeLayout>

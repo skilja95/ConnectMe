@@ -1,33 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activities.SendMessageActivity">
+    android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listMessages"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_above="@+id/relSendMessage" />
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+    <RelativeLayout
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_above="@+id/relSendMessage"
+        android:background="@color/off_white" />
 
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_send_message" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <RelativeLayout
+        android:id="@+id/relSendMessage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:paddingLeft="10dp">
 
-</android.support.design.widget.CoordinatorLayout>
+
+        <EditText
+            android:id="@+id/messageBodyField"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/sendButton"
+            android:layout_alignTop="@+id/sendButton"
+            android:layout_marginBottom="-4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/sendButton"
+            android:background="@android:color/white"
+            android:hint="Message..."
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_margin="4dp"
+            android:text="SEND"
+            android:textColor="@color/off_white"
+            android:background="@color/colorPrimary"
+            android:enabled="false"/>
+    </RelativeLayout>
+
+</RelativeLayout>
