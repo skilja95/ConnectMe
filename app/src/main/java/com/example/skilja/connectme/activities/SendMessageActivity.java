@@ -145,7 +145,25 @@ public class SendMessageActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: Implementirati slanje poruke
+        //DONE: Implementirati slanje poruke
+        sendButton.setOnClickListener(new View.OnClickListener() {
+                                          @Override
+                                          public void onClick(View v) {
+                                              String text = messageText.getText().toString();
+                                              String uid = databaseReferenceMessages.push().getKey();
+                                              message = new Message(currentUserEmail, uidGroup, text, System.currentTimeMillis());
+                                              databaseReferenceMessages.child(uid).setValue(message);
+                                              Log.e("", "PRE DODAVANJA PORUKA U GRUPU");
+
+                                              messageText.setText("");
+                                              group.getMessages().add(message);
+                                              databaseReferenceGroups.child(group.getId_group()).setValue(group);
+
+                                              //TODO: Implementirati notifikacije
+
+                                          }
+                                      }
+        );
 
 
         childEventListener = new ChildEventListener() {
