@@ -3,54 +3,69 @@ package com.example.skilja.connectme.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ListView;
 
 import com.example.skilja.connectme.R;
+import com.example.skilja.connectme.model.DeleteAdapter;
+import com.example.skilja.connectme.model.DeleteGroup;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DeleteMessagesFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DeleteMessagesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class DeleteMessagesFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
+
+
+    private ListView myListView;
+    private EditText myEditText;
+
+    private FirebaseAuth firebaseAuth;
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference("deletedGroup");
+
+    private List<DeleteGroup> groups = new ArrayList<>();
+    private List<DeleteGroup> temp = new ArrayList<>();
+    private List<DeleteGroup> forAdd = new ArrayList<>();
+    private DeleteAdapter adapter;
+
+
+
+
     public DeleteMessagesFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DeleteMessagesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DeleteMessagesFragment newInstance(String param1, String param2) {
-        DeleteMessagesFragment fragment = new DeleteMessagesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,15 +80,116 @@ public class DeleteMessagesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_delete_messages, container, false);
+        // return inflater.inflate(R.layout.fragment_delete_messages, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_delete_messages, container, false);
+
+        myEditText =  view.findViewById(R.id.searchDelConversations);
+        myListView = view.findViewById(R.id.listDelConversations);
+        adapter = new DeleteAdapter(getContext(), groups);
+        myListView.setAdapter(adapter);
+        myListView.setDivider(null);
+
+
+
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                groups.clear();
+                String email = getCurrentUserEmail();
+
+                for(DataSnapshot u: dataSnapshot.getChildren()) {
+
+                    DeleteGroup group = u.getValue(DeleteGroup.class);
+                    if (group.getEmailUser().equalsIgnoreCase(email)) {
+
+                        groups.add(group);
+
+
+                    }
+
+
+                }
+
+                temp.addAll(groups);
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        myEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                String input = myEditText.getText().toString();
+
+                if (input.equalsIgnoreCase("")) {
+
+                    groups.clear();
+                    groups.addAll(temp);
+                    adapter.notifyDataSetChanged();
+                    return ;
+
+
+                } else {
+
+
+                    groups.clear();
+                    forAdd.clear();
+                    groups.addAll(temp);
+
+                    for (DeleteGroup gr : groups) {
+
+                        String titl = gr.getTitle().toLowerCase();
+
+                        if (titl.contains(input)) {
+
+
+                            forAdd.add(gr);
+
+                        }
+
+                    }
+
+                    groups.clear();
+                    groups.addAll(forAdd);
+                    adapter.notifyDataSetChanged();
+
+
+                }
+
+
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                adapter.notifyDataSetChanged();
+
+            }
+        });
+
+
+
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -87,18 +203,19 @@ public class DeleteMessagesFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+    public String getCurrentUserEmail() {
+
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser fireBaseUser = firebaseAuth.getCurrentUser();
+        return fireBaseUser.getEmail();
+
+    }
+
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
+

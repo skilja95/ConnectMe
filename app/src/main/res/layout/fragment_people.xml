@@ -4,10 +4,34 @@
     android:layout_height="match_parent"
     tools:context="com.example.skilja.connectme.fragments.PeopleFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        >
+
+        <TextView
+            android:id="@+id/textId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="32dp"
+            android:paddingRight="12dp"
+            android:paddingTop="12dp"
+            android:text="Contact list"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp" />
+
+
+        <ListView
+            android:id="@+id/listContacts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="12dp"/>
+
+
+
+    </LinearLayout>
 
 </FrameLayout>
