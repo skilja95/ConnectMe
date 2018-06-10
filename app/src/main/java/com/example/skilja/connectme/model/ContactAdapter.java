@@ -26,14 +26,14 @@ public class ContactAdapter extends BaseAdapter {
 
 
     Context context;
-    List<User> users;
+    List<String> users;
 
 
     //PRISTUPANJE BAZI
     private FirebaseAuth firebaseAuth;
 
 
-    public ContactAdapter(Context context, List<User> users) {
+    public ContactAdapter(Context context, List<String> users) {
         this.context = context;
         this.users = users;
     }
@@ -83,10 +83,12 @@ public class ContactAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        User us = users.get(position);
-        holder.groupTitle.setText(us.getFirst_name()+ " "+ us.getLast_name());
-
-        char letter = us.getFirst_name().toCharArray()[0];
+        //User us = users.get(position);
+        String us = users.get(position);
+       // holder.groupTitle.setText(us.getFirst_name()+ " "+ us.getLast_name());
+        holder.groupTitle.setText(us);
+        //char letter = us.getFirst_name().toCharArray()[0];
+        char letter = us.toCharArray()[0];
 
         ColorGenerator generator = ColorGenerator.MATERIAL;
         int color1 = generator.getRandomColor();

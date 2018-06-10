@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -47,6 +48,9 @@ public class PeopleFragment extends Fragment {
     private ArrayList<User> usersTemp = new ArrayList<>();
     private ArrayList<String> deletedGroups = new ArrayList<>();
     private ArrayList<Group> forDeletedList = new ArrayList<>();
+    private List<User> list = new ArrayList<>();
+    private List<String> list2 = new ArrayList<>();
+
 
     ContactAdapter adapter;
 
@@ -93,7 +97,7 @@ public class PeopleFragment extends Fragment {
 
         myText = view.findViewById(R.id.textId);
         listContacts = view.findViewById(R.id.listContacts);
-        adapter = new ContactAdapter(getContext(), users);
+        adapter = new ContactAdapter(getContext(), list2);
         listContacts.setAdapter(adapter);
         listContacts.setDivider(null);
 
@@ -180,7 +184,7 @@ public class PeopleFragment extends Fragment {
     public void goUsers() {
 
         String email = getCurrentUserEmail();
-        Set<User> hs = new HashSet<>(); // ovo koristim jer cu imati vise usera koji su isti, a set ne dozvoljava ponavljajuce vrednosti
+        //Set<User> hs = new HashSet<>(); // ovo koristim jer cu imati vise usera koji su isti, a set ne dozvoljava ponavljajuce vrednosti
 
         for(Group gro : groups) {
 
@@ -189,7 +193,8 @@ public class PeopleFragment extends Fragment {
                 if (!kori.getEmail().equals(email)) {
 
                     //hs.add(kori);
-                    users.add(kori);
+                    //users.add(kori);
+                    list2.add(kori.getFirst_name()+ " " +kori.getLast_name());
 
                 }
 
@@ -199,10 +204,17 @@ public class PeopleFragment extends Fragment {
 
 
         }
-        hs.addAll(users);
-        users.clear();
-        users.addAll(hs);
-        usersTemp.addAll(users);
+
+         //list =  new ArrayList<>(new HashSet<>(users));
+       // list2 = new ArrayList<>(new HashSet<String>());
+        //hs.addAll(users);
+        //users.clear();
+        //users.addAll(hs);
+        //usersTemp.addAll(users);
+        Set<String> hs = new HashSet<>();
+        hs.addAll(list2);
+        list2.clear();
+        list2.addAll(hs);
 
     }
 
