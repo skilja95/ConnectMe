@@ -109,10 +109,17 @@ public class NewConversationActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+                    if (i == 0) {
 
-                User us =  (User) adapterView.getItemAtPosition(i);
-                tempMembers.add(us);
-                useri.append(us.getFirst_name()+ ", ");
+                        return;
+
+                    }
+                    else {
+                            adapterView.getCount();
+                        User us = (User) adapterView.getItemAtPosition(i);
+                        tempMembers.add(us);
+                        useri.append(us.getFirst_name() + ", ");
+                    }
             }
 
             @Override
