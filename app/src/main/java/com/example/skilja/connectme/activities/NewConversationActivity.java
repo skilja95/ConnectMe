@@ -8,9 +8,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.skilja.connectme.R;
 
@@ -43,9 +45,12 @@ public class NewConversationActivity extends AppCompatActivity {
     private EditText title;
     private Button create;
 
+    private TextView useri;
+
     private List<User> users = new ArrayList<>();
     private List<User> listUser = new ArrayList<>();
     private List<User> temp = new ArrayList<>();
+    private List<User> tempMembers = new ArrayList<>();
     private UserAdapter adapter;
     private DatabaseReference ref;
     private FirebaseAuth firebaseAuth;
@@ -65,6 +70,9 @@ public class NewConversationActivity extends AppCompatActivity {
         //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         searchUser = (EditText) findViewById(R.id.search);
 
+        useri = (TextView) findViewById(R.id.useriText) ;
+
+        useri.setText("Selected users: ");
 
         result = (Spinner) findViewById(R.id.result);
         title = (EditText) findViewById(R.id.title);
@@ -97,6 +105,31 @@ public class NewConversationActivity extends AppCompatActivity {
 
         result.setAdapter(adapter);
 
+        result.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    if (i == 0) {
+
+                        return;
+
+                    }
+                    else {
+                            adapterView.getCount();
+                        User us = (User) adapterView.getItemAtPosition(i);
+                        tempMembers.add(us);
+                        useri.append(us.getFirst_name() + ", ");
+                    }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,11 +142,13 @@ public class NewConversationActivity extends AppCompatActivity {
                 String s = result.getSelectedItem().toString();
 
                 List<User> members = new ArrayList<User>();
-                User u = (User) result.getSelectedItem();
+                //User u = (User) result.getSelectedItem();
+
                 User currentUser = getCurrentUser(temp);
                 members.add(currentUser);
 
-                members.add(u);
+                //members.add(u);
+                members.addAll(tempMembers);
 
                 //Log.e("", "EMAIL OD : " + currentUser.getEmail());
 
@@ -134,7 +169,7 @@ public class NewConversationActivity extends AppCompatActivity {
                 group.getMessages().add(m);
 
                 databaseReference.child(uid).setValue(group);
-                Log.e("", "SELECTED: " + s + u.getEmail());
+               // Log.e("", "SELECTED: " + s + u.getEmail());
 
                 String currentUserId = getCurrentUserId();
 
@@ -188,7 +223,7 @@ public class NewConversationActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 adapter.notifyDataSetChanged();
             }
-        });
+        } );
 
     }
 
