@@ -18,6 +18,7 @@ import android.widget.EditText;
 import com.example.skilja.connectme.model.Group;
 import com.example.skilja.connectme.model.Message;
 import com.example.skilja.connectme.model.MessagesViewHolder;
+import com.example.skilja.connectme.model.Notifikacija;
 import com.example.skilja.connectme.model.User;
 import com.example.skilja.connectme.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -28,9 +29,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.AuthResult;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class SendMessageActivity extends AppCompatActivity {
@@ -38,6 +43,9 @@ public class SendMessageActivity extends AppCompatActivity {
     private DatabaseReference databaseReferenceMessages = FirebaseDatabase.getInstance().getReference("messages");
     private DatabaseReference databaseReferenceGroups = FirebaseDatabase.getInstance().getReference("groups");
     private DatabaseReference databaseReferenceMessagesOfGroup;
+    private DatabaseReference databaseNotification = FirebaseDatabase.getInstance().getReference("notifications");
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
 
     private Button sendButton;
     private EditText messageText;
@@ -160,6 +168,20 @@ public class SendMessageActivity extends AppCompatActivity {
                                               databaseReferenceGroups.child(group.getId_group()).setValue(group);
 
                                               //TODO: Implementirati notifikacije
+                                              String loggedUserId = firebaseAuth.getCurrentUser().getUid();
+                                              Map<String, User> map = group.getMembers();
+
+                                              for (Map.Entry<String, User> entry : map.entrySet()){
+                                                  User user = entry.getValue();
+                                                  if(!user.getUser_id().equals(loggedUserId)){
+                                                      String idNot = databaseNotification.push().getKey();
+                                                      Notifikacija notifikacija = new Notifikacija(loggedUserId,user.getUser_id(),group.getId_group(),text);
+                                                      databaseNotification.child(idNot).setValue(notifikacija);
+                                                  }
+                                              }
+
+
+
 
                                           }
                                       }

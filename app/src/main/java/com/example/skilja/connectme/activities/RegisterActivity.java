@@ -16,6 +16,7 @@ import com.example.skilja.connectme.R;
 
 import com.example.skilja.connectme.model.Group;
 import com.example.skilja.connectme.model.User;
+import com.example.skilja.connectme.model.UserToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
@@ -34,6 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Button buttonRegister;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference firebaseDatabase;
+    private DatabaseReference firebaseToken;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -55,6 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance().getReference("users");
+        firebaseToken = FirebaseDatabase.getInstance().getReference("usersToken");
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,9 +87,11 @@ public class RegisterActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     String uid = firebaseAuth.getCurrentUser().getUid();
                                     String email = firebaseAuth.getCurrentUser().getEmail();
+                                    String token_id = FirebaseInstanceId.getInstance().getToken();
                                     User user = new User(uid, email, firstNameRegister.getText().toString(), lastNameRegister.getText().toString(), null, new ArrayList<Group>());
-
+                                    UserToken userToken = new UserToken(uid, email, firstNameRegister.getText().toString(), lastNameRegister.getText().toString(), null, new ArrayList<Group>(),token_id);
                                     firebaseDatabase.child(firebaseAuth.getCurrentUser().getUid()).setValue(user);
+                                    firebaseToken.child(firebaseAuth.getCurrentUser().getUid()).setValue(userToken);
                                     Toast.makeText(RegisterActivity.this, "Successful registration.", Toast.LENGTH_SHORT).show();
 
                                     Intent loginIntent = new Intent(RegisterActivity.this, LoginActivity.class);

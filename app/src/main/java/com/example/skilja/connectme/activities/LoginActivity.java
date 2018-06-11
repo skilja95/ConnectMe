@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.skilja.connectme.R;
 
+import com.example.skilja.connectme.model.UserToken;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,6 +22,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GetTokenResult;
 import com.example.skilja.connectme.SessionManager;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -31,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private String token;
     private SessionManager session;
+
+    private FirebaseFirestore mFirestore;
+    private DatabaseReference firebaseToken;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -51,6 +63,10 @@ public class LoginActivity extends AppCompatActivity {
         registerButton = (Button) findViewById(R.id.regButton);
 
         firebaseAuth = FirebaseAuth.getInstance();
+
+        /// za device token
+        mFirestore = FirebaseFirestore.getInstance();
+        firebaseToken = FirebaseDatabase.getInstance().getReference("usersToken");
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 if (task.isSuccessful()) {
                                     final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                                    String token_id = FirebaseInstanceId.getInstance().getToken();
                                     Task<GetTokenResult> s = firebaseUser.getToken(true);
                                     s.addOnCompleteListener(new OnCompleteListener<GetTokenResult>() {
                                         @Override
@@ -91,6 +108,10 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     });
 
+                                    Map<String, Object> mapToken = new HashMap<>();
+                                    mapToken.put("token",token_id);
+                                    DatabaseReference changerRefToken = firebaseToken.child(firebaseAuth.getCurrentUser().getUid());
+                                    changerRefToken.updateChildren(mapToken);
 
                                     Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_LONG).show();
                                     Intent loginIntent = new Intent(LoginActivity.this, ConversationPageActivity.class);

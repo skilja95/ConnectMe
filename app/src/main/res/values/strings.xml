@@ -21,4 +21,6 @@
     <string name="title_activity_new_conversation">NewConversationActivity</string>
     <string name="title_activity_send_message">SendMessageActivity</string>
 
+    <string name="default_notification_channel_id">Connectme_CH_01</string>
+
 </resources>
