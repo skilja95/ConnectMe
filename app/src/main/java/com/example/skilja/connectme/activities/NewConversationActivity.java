@@ -177,7 +177,7 @@ public class NewConversationActivity extends AppCompatActivity {
         });
 
 
-       /* searchUser.addTextChangedListener(new TextWatcher() {
+        searchUser.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -216,7 +216,7 @@ public class NewConversationActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 adapter.notifyDataSetChanged();
             }
-        }*/   // );
+        } );
 
     }
 
