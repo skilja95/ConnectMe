@@ -66,5 +66,16 @@
         android:textSize="16sp"
         />
 
+    <TextView
+        android:id="@+id/useriText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/createConversation"
+        android:layout_marginStart="23dp"
+        android:layout_marginTop="43dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp" />
+
 
 </RelativeLayout>
