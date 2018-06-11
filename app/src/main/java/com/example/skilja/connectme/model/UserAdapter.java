@@ -74,8 +74,8 @@ public class UserAdapter extends ArrayAdapter<User>{
         //return super.getDropDownView(position, convertView, parent);
         if(convertView == null)
             return super.getView(position,convertView,parent);
-       // TextView textView = (TextView) convertView.findViewById(R.id.groupTitle);
-        //textView.setText(getItem(position).getFirst_name());
+        TextView textView = (TextView) convertView.findViewById(R.id.groupTitle);
+        textView.setText(getItem(position).getFirst_name());
         return  convertView;
     }
 }

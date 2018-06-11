@@ -115,7 +115,7 @@ public class NewConversationActivity extends AppCompatActivity {
 
                     }
                     else {
-                            adapterView.getCount();
+                            //adapterView.getCount();
                         User us = (User) adapterView.getItemAtPosition(i);
                         tempMembers.add(us);
                         useri.append(us.getFirst_name() + ", ");
